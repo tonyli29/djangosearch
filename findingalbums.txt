@@ -1,0 +1,40 @@
+>>> Artist.objects.filter(name='Queen')
+<QuerySet [<Artist: Artist object (51)>]>
+>>> Album.objects.filter(artist=51)
+<QuerySet [<Album: Album object (32)>, <Album: Album object (181)>, <Album: Album object (182)>]>
+>>> Album.objects.filter(artist=51)[0].title
+'Greatest Hits II'
+>>> Album.objects.filter(artist=51)[1].title
+'Greatest Hits I'
+>>> Album.objects.filter(artist=51)[2].title
+'News Of The World'
+
+>>> MediaType.objects.filter(name='Protected MPEG-4 video file')
+<QuerySet [<MediaType: MediaType object (3)>]>
+>>> Track.objects.filter(media_type=3).count()
+214
+
+>>> Genre.objects.get(name='Hip Hop/Rap')
+<Genre: Genre object (17)>
+>>> Genre.objects.get(name='Hip Hop/Rap').track_set.count()
+35
+
+from django.db.models import Sum
+>>> Track.objects.aggregate(Sum('milliseconds'))
+{'milliseconds__sum': 1377942652}
+
+>>> MediaType.objects.get(name='MPEG audio file').track_set.order_by('unit_price')[0].name
+'Put The Finger On You'
+
+>>> Artist.objects.order_by('created_at')[0].name
+'Les Arts Florissants & William Christie'
+>>> Artist.objects.order_by('created_at')[1].name
+'Baby Consuelo'
+
+>>> Genre.objects.get(name='Electronica/Dance').track_set.order_by('unit_price')[0].name
+'Instinto Colectivo'
+
+>>> Track.objects.filter(genre=15, media_type=1)
+<QuerySet [<Track: Track object (3319)>, <Track: Track object (3320)>, <Track: Track object (3321)>, <Track: Track object (3322)>, <Track: Track object (3323)>, <Track: Track object (3324)>, <Track: Track object (3325)>, <Track: Track object (3327)>, <Track: Track object (3328)>, <Track: Track object (3329)>, <Track: Track object (3330)>, <Track: Track object (3331)>, <Track: Track object (3333)>, <Track: Track object (3334)>, <Track: Track object (3335)>, <Track: Track object (1456)>, <Track: Track object (1463)>, <Track: Track object (1455)>, <Track: Track object (3326)>, <Track: Track object (3332)>, '...(remaining elements truncated)...']>
+>>> Track.objects.filter(genre=15, media_type=1).count()
+28
